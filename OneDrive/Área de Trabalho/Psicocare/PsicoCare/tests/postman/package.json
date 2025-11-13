@@ -1,0 +1,26 @@
+{
+  "name": "psicocare-api-tests",
+  "version": "1.0.0",
+  "description": "Testes de API do PsicoCare usando Postman/Newman",
+  "scripts": {
+    "test": "newman run PsicoCare_API.postman_collection.json -e PsicoCare_API.postman_environment.json",
+    "test:html": "newman run PsicoCare_API.postman_collection.json -e PsicoCare_API.postman_environment.json -r html,cli",
+    "test:json": "newman run PsicoCare_API.postman_collection.json -e PsicoCare_API.postman_environment.json -r json,cli",
+    "test:junit": "newman run PsicoCare_API.postman_collection.json -e PsicoCare_API.postman_environment.json -r junit,cli"
+  },
+  "keywords": [
+    "postman",
+    "newman",
+    "api",
+    "testing"
+  ],
+  "author": "Equipe PsicoCare",
+  "license": "ISC",
+  "devDependencies": {
+    "newman": "^6.0.0",
+    "newman-reporter-html": "^1.0.5",
+    "newman-reporter-htmlextra": "^1.23.0",
+    "newman-reporter-junit": "^1.0.1"
+  }
+}
+

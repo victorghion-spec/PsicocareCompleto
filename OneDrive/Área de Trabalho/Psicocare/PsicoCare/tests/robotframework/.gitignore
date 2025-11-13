@@ -1,0 +1,43 @@
+# Resultados de testes
+results/
+log.html
+report.html
+output.xml
+*.log
+
+# Screenshots
+*.png
+*.jpg
+*.jpeg
+!sikuli_images/*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# Arquivos temporários
+*.tmp
+*.bak
+

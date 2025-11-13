@@ -1,0 +1,6 @@
+robotframework==6.1.1
+robotframework-seleniumlibrary==6.1.4
+selenium==4.15.2
+robotframework-sikulilibrary==1.0.9
+webdrivermanager==0.10.1
+

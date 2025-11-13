@@ -1,0 +1,228 @@
+================================================================================
+RESUMO DE LOCATORS E IDs PARA AUTOMAÇÃO - PSICOCARE
+================================================================================
+
+Este arquivo contém um resumo rápido de todos os locators e IDs identificados
+para automação de testes do PsicoCare usando Robot Framework.
+
+================================================================================
+1. AUTENTICAÇÃO (LOGIN)
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Login                | ${LOGIN_TITLE}                | login-title
+Campo Email                 | ${LOGIN_EMAIL_INPUT}          | login-email-input
+Campo Senha                 | ${LOGIN_SENHA_INPUT}          | login-senha-input
+Botão Entrar                | ${LOGIN_BTN_ENTRAR}           | login-btn-entrar
+Link Criar Conta            | ${LOGIN_LINK_CADASTRAR}       | login-link-cadastrar
+Link Esqueci Senha          | ${LOGIN_LINK_ESQUECI_SENHA}   | login-link-esqueci-senha
+Mensagem Erro               | ${LOGIN_MSG_ERRO}             | login-msg-erro
+
+Dados de Teste:
+- Email Paciente: ${EMAIL_PACIENTE_TESTE} = paciente@teste.com
+- Senha Paciente: ${SENHA_PACIENTE_TESTE} = senha123
+- Email Psicólogo: ${EMAIL_PSICOLOGO_TESTE} = psicologo@teste.com
+- Senha Psicólogo: ${SENHA_PSICOLOGO_TESTE} = senha456
+
+================================================================================
+2. CADASTRO (REGISTER)
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Criar Conta          | ${REGISTER_TITLE}             | register-title
+Botão Sou Paciente          | ${REGISTER_BTN_PACIENTE}      | register-btn-paciente
+Botão Sou Psicólogo         | ${REGISTER_BTN_PSICOLOGO}     | register-btn-psicologo
+Campo Nome                  | ${REGISTER_NOME_INPUT}        | register-nome-input
+Campo Email                 | ${REGISTER_EMAIL_INPUT}       | register-email-input
+Campo Senha                 | ${REGISTER_SENHA_INPUT}       | register-senha-input
+Campo Telefone              | ${REGISTER_TELEFONE_INPUT}    | register-telefone-input
+Campo Nascimento            | ${REGISTER_NASCIMENTO_INPUT}  | register-nascimento-input
+Campo CRP                   | ${REGISTER_CRP_INPUT}         | register-crp-input
+Campo Especialidade         | ${REGISTER_ESPECIALIDADE_INPUT}| register-especialidade-input
+Botão Cadastrar             | ${REGISTER_BTN_CADASTRAR}     | register-btn-cadastrar
+Link Já Tenho Conta         | ${REGISTER_LINK_LOGIN}        | register-link-login
+
+================================================================================
+3. DASHBOARD/HOME PACIENTE
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Início               | ${HOME_HEADER_TITLE}          | home-header-title
+Próximo Agendamento         | ${HOME_PROXIMO_AGENDAMENTO}   | home-proximo-agendamento
+Último Acompanhamento       | ${HOME_ULTIMO_ACOMPANHAMENTO} | home-ultimo-acompanhamento
+Botão Agendamentos          | ${HOME_BTN_AGENDAMENTOS}      | home-btn-agendamentos
+Botão Acompanhamento        | ${HOME_BTN_ACOMPANHAMENTO}    | home-btn-acompanhamento
+Botão Emergência            | ${HOME_BTN_EMERGENCIA}        | home-btn-emergencia
+
+================================================================================
+4. AGENDAMENTOS
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Agendamentos         | ${AGENDAMENTOS_TITLE}         | agendamentos-title
+Header Seus Agendamentos    | ${AGENDAMENTOS_HEADER}        | agendamentos-header
+Selecionar Profissional     | ${AGENDAMENTOS_SELECIONAR_PROF}| agendamentos-select-prof
+Campo Data                  | ${AGENDAMENTOS_INPUT_DATA}    | agendamentos-input-data
+Campo Hora                  | ${AGENDAMENTOS_INPUT_HORA}    | agendamentos-input-hora
+Botão Criar Agendamento     | ${AGENDAMENTOS_BTN_CRIAR}     | agendamentos-btn-criar
+Botão Confirmar             | ${AGENDAMENTOS_BTN_CONFIRMAR} | agendamentos-btn-confirmar
+Lista Agendamentos          | ${AGENDAMENTOS_LISTA}         | agendamentos-lista
+Mensagem Horário Indisponível| ${AGENDAMENTOS_MSG_ERRO}     | agendamentos-msg-erro
+
+Formato:
+- Data: AAAA-MM-DD (ex: 2025-11-10)
+- Hora: HH:MM (ex: 14:00)
+
+================================================================================
+5. LISTA DE PSICÓLOGOS
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Psicólogos           | ${PSICOLOGOS_TITLE}           | psicologos-title
+Card Psicólogo              | ${PSICOLOGOS_CARD}            | psicologos-card
+Nome Psicólogo              | ${PSICOLOGOS_NOME}            | psicologos-nome
+Especialidade               | ${PSICOLOGOS_ESPECIALIDADE}   | psicologos-especialidade
+Botão Agendar               | ${PSICOLOGOS_BTN_AGENDAR}     | psicologos-btn-agendar
+Status Indisponível         | ${PSICOLOGOS_INDISPONIVEL}    | psicologos-indisponivel
+
+================================================================================
+6. ACOMPANHAMENTO DIÁRIO
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Acompanhamento       | ${ACOMPANHAMENTO_TITLE}       | acompanhamento-title
+Campo Texto                 | ${ACOMPANHAMENTO_TEXTAREA}    | acompanhamento-textarea
+Botão Sono 1                | ${ACOMPANHAMENTO_SONO_1}      | acompanhamento-sono-1
+Botão Sono 2                | ${ACOMPANHAMENTO_SONO_2}      | acompanhamento-sono-2
+Botão Sono 3                | ${ACOMPANHAMENTO_SONO_3}      | acompanhamento-sono-3
+Botão Sono 4                | ${ACOMPANHAMENTO_SONO_4}      | acompanhamento-sono-4
+Botão Sono 5                | ${ACOMPANHAMENTO_SONO_5}      | acompanhamento-sono-5
+Botão Humor Estável         | ${ACOMPANHAMENTO_HUMOR_ESTAVEL}| acompanhamento-humor-estavel
+Botão Humor Ansioso         | ${ACOMPANHAMENTO_HUMOR_ANSIOSO}| acompanhamento-humor-ansioso
+Botão Humor Triste          | ${ACOMPANHAMENTO_HUMOR_TRISTE} | acompanhamento-humor-triste
+Botão Humor Irritado        | ${ACOMPANHAMENTO_HUMOR_IRRITADO}| acompanhamento-humor-irritado
+Botão Humor Outro           | ${ACOMPANHAMENTO_HUMOR_OUTRO} | acompanhamento-humor-outro
+Botão Salvar                | ${ACOMPANHAMENTO_BTN_SALVAR}  | acompanhamento-btn-salvar
+Histórico                   | ${ACOMPANHAMENTO_HISTORICO}   | acompanhamento-historico
+
+Valores:
+- Qualidade Sono: 1 a 5
+- Humor: Estável, Ansioso, Triste, Irritado, Outro
+
+================================================================================
+7. AVALIAÇÕES
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Campo Comentário            | ${AVALIACAO_COMENTARIO_INPUT} | avaliacao-comentario-input
+Campo Nota                  | ${AVALIACAO_NOTA_INPUT}       | avaliacao-nota-input
+Botão Enviar                | ${AVALIACAO_BTN_ENVIAR}       | avaliacao-btn-enviar
+Lista Pública               | ${AVALIACAO_LISTA_PUBLICA}    | avaliacao-lista-publica
+Card Avaliação              | ${AVALIACAO_CARD}             | avaliacao-card
+
+Valores:
+- Nota: 1 a 5
+
+================================================================================
+8. HOME PSICÓLOGO
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Home Psicólogo       | ${PSICOLOGO_HOME_TITLE}       | psicologo-home-title
+Próxima Consulta            | ${PSICOLOGO_PROXIMA_CONSULTA} | psicologo-proxima-consulta
+Pacientes Aceitos           | ${PSICOLOGO_PACIENTES_ACEITOS}| psicologo-pacientes-aceitos
+
+================================================================================
+9. SOLICITAÇÕES PSICÓLOGO
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Solicitações         | ${SOLICITACOES_TITLE}         | solicitacoes-title
+Card Solicitação            | ${SOLICITACOES_CARD}          | solicitacoes-card
+Nome Paciente               | ${SOLICITACOES_NOME_PACIENTE} | solicitacoes-nome-paciente
+Email Paciente              | ${SOLICITACOES_EMAIL_PACIENTE}| solicitacoes-email-paciente
+Botão Aceitar               | ${SOLICITACOES_BTN_ACEITAR}   | solicitacoes-btn-aceitar
+Mensagem Vazia              | ${SOLICITACOES_MSG_VAZIA}     | solicitacoes-msg-vazia
+
+================================================================================
+10. PERFIL
+================================================================================
+
+Elemento                    | Locator/Variável              | testID Sugerido
+----------------------------|-------------------------------|------------------
+Título Perfil               | ${PERFIL_TITLE}               | perfil-title
+Botão Disponibilidade       | ${PERFIL_BTN_DISPONIBILIDADE} | perfil-btn-disponibilidade
+Status Disponível           | ${PERFIL_STATUS_DISPONIVEL}   | perfil-status-disponivel
+Status Indisponível         | ${PERFIL_STATUS_INDISPONIVEL} | perfil-status-indisponivel
+
+================================================================================
+URLs DAS PÁGINAS
+================================================================================
+
+Página                      | URL                           | Variável
+----------------------------|-------------------------------|------------------
+Login                       | http://localhost:19006/login  | ${LOGIN_URL}
+Cadastro                    | http://localhost:19006/register| ${REGISTER_URL}
+Home                        | http://localhost:19006/       | ${HOME_URL}
+Agendamentos                | http://localhost:19006/agendamentos| ${AGENDAMENTOS_URL}
+Psicólogos                  | http://localhost:19006/psicologos| ${PSICOLOGOS_URL}
+Acompanhamento              | http://localhost:19006/avaliacoes| ${ACOMPANHAMENTO_URL}
+Home Psicólogo              | http://localhost:19006/home-psicologo| ${HOME_PSICOLOGO_URL}
+Solicitações                | http://localhost:19006/solicitacoes-psicologo| ${SOLICITACOES_URL}
+
+================================================================================
+MENSAGENS ESPERADAS
+================================================================================
+
+Mensagem                    | Variável
+----------------------------|------------------
+Login Sucesso               | ${MSG_LOGIN_SUCESSO} = Bem-vindo
+Erro Credenciais            | ${MSG_ERRO_CREDENCIAIS} = Credenciais inválidas
+Erro Horário Indisponível   | ${MSG_ERRO_HORARIO_INDISPONIVEL} = Horário indisponível
+Cadastro Sucesso            | ${MSG_CADASTRO_SUCESSO} = Cadastrado com sucesso
+Agendamento Sucesso         | ${MSG_AGENDAMENTO_SUCESSO} = Agendamento registrado
+Acompanhamento Salvo        | ${MSG_ACOMPANHAMENTO_SALVO} = Registro salvo
+Avaliação Enviada           | ${MSG_AVALIACAO_ENVIADA} = Avaliação registrada
+
+================================================================================
+TIMEOUTS
+================================================================================
+
+Timeout                     | Valor
+----------------------------|------------------
+Timeout Curto               | ${TIMEOUT_SHORT} = 5s
+Timeout Médio               | ${TIMEOUT_MEDIUM} = 10s
+Timeout Longo               | ${TIMEOUT_LONG} = 30s
+Timeout Carregamento Página | ${TIMEOUT_PAGE_LOAD} = 15s
+
+================================================================================
+COMO USAR
+================================================================================
+
+1. Todos os locators estão definidos em: locators.robot
+2. Keywords reutilizáveis estão em: resources/psicocare_resources.robot
+3. Testes estão em: test_*.robot
+4. Para melhor identificação, adicione testID aos componentes React Native
+5. Veja GUIA_ADICIONAR_TESTID.md para instruções detalhadas
+
+================================================================================
+PRÓXIMOS PASSOS
+================================================================================
+
+1. Adicionar testID aos componentes React Native (ver GUIA_ADICIONAR_TESTID.md)
+2. Atualizar locators.robot para usar testID ao invés de XPath
+3. Executar testes: robot tests/robotframework/
+4. Ajustar timeouts e locators conforme necessário
+5. Configurar CI/CD para execução automática
+
+================================================================================
+

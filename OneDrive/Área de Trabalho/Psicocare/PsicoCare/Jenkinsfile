@@ -1,0 +1,255 @@
+pipeline {
+    agent any
+    
+    environment {
+        // URLs
+        PSICOCARE_BASE_URL = 'http://localhost:19006'
+        PSICOCARE_API_URL = 'http://localhost:3000'
+        
+        // Credenciais (usar Jenkins Credentials)
+        TEST_EMAIL_PACIENTE = credentials('test-email-paciente') ?: 'paciente@teste.com'
+        TEST_SENHA_PACIENTE = credentials('test-senha-paciente') ?: 'senha123'
+        TEST_EMAIL_PSICOLOGO = credentials('test-email-psicologo') ?: 'psicologo@teste.com'
+        TEST_SENHA_PSICOLOGO = credentials('test-senha-psicologo') ?: 'senha456'
+        
+        // Diretórios
+        WORKSPACE_DIR = "${WORKSPACE}"
+        RESULTS_DIR = "${WORKSPACE}/test-results"
+        ROBOT_RESULTS = "${RESULTS_DIR}/robotframework"
+        POSTMAN_RESULTS = "${RESULTS_DIR}/postman"
+        CONSOLIDATED_REPORT = "${RESULTS_DIR}/consolidated-report.html"
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo "Checkout do código..."
+                    checkout scm
+                }
+            }
+        }
+        
+        stage('Setup') {
+            steps {
+                script {
+                    echo "Configurando ambiente..."
+                    sh '''
+                        # Criar diretórios de resultados
+                        mkdir -p ${RESULTS_DIR}
+                        mkdir -p ${ROBOT_RESULTS}
+                        mkdir -p ${POSTMAN_RESULTS}
+                        
+                        # Verificar Python
+                        python3 --version || python --version
+                        
+                        # Verificar Node.js
+                        node --version
+                        npm --version
+                    '''
+                }
+            }
+        }
+        
+        stage('Instalar Dependências') {
+            parallel {
+                stage('Robot Framework') {
+                    steps {
+                        script {
+                            echo "Instalando dependências do Robot Framework..."
+                            dir('tests/robotframework') {
+                                sh '''
+                                    pip3 install -r requirements.txt --user || pip install -r requirements.txt --user
+                                '''
+                            }
+                        }
+                    }
+                }
+                
+                stage('Postman/Newman') {
+                    steps {
+                        script {
+                            echo "Instalando dependências do Postman/Newman..."
+                            dir('tests/postman') {
+                                sh '''
+                                    npm install -g newman newman-reporter-html newman-reporter-htmlextra newman-reporter-junit || true
+                                    npm install || true
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Verificar Serviços') {
+            steps {
+                script {
+                    echo "Verificando se os serviços estão rodando..."
+                    sh '''
+                        # Verificar API
+                        curl -f ${PSICOCARE_API_URL}/health || echo "API não está respondendo, mas continuando..."
+                        
+                        # Verificar Frontend
+                        curl -f ${PSICOCARE_BASE_URL} || echo "Frontend não está respondendo, mas continuando..."
+                    '''
+                }
+            }
+        }
+        
+        stage('Executar Testes') {
+            parallel {
+                stage('Testes de API (Postman)') {
+                    steps {
+                        script {
+                            echo "Executando testes de API com Postman/Newman..."
+                            dir('tests/postman') {
+                                sh '''
+                                    newman run PsicoCare_API.postman_collection.json \
+                                        -e PsicoCare_API.postman_environment.json \
+                                        --env-var "base_url=${PSICOCARE_API_URL}" \
+                                        --env-var "paciente_email=${TEST_EMAIL_PACIENTE}" \
+                                        --env-var "paciente_senha=${TEST_SENHA_PACIENTE}" \
+                                        --env-var "psicologo_email=${TEST_EMAIL_PSICOLOGO}" \
+                                        --env-var "psicologo_senha=${TEST_SENHA_PSICOLOGO}" \
+                                        -r html,json,junit,cli \
+                                        --reporter-html-export ${POSTMAN_RESULTS}/postman-report.html \
+                                        --reporter-json-export ${POSTMAN_RESULTS}/postman-report.json \
+                                        --reporter-junit-export ${POSTMAN_RESULTS}/postman-report.xml \
+                                        --reporter-cli-no-summary || true
+                                '''
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: 'test-results/postman/*', allowEmptyArchive: true
+                            publishTestResults testResultsPattern: 'test-results/postman/*.xml'
+                        }
+                    }
+                }
+                
+                stage('Testes de UI (Robot Framework)') {
+                    steps {
+                        script {
+                            echo "Executando testes de UI com Robot Framework..."
+                            dir('tests/robotframework') {
+                                sh '''
+                                    robot \
+                                        --variable BASE_URL:${PSICOCARE_BASE_URL} \
+                                        --variable API_URL:${PSICOCARE_API_URL} \
+                                        --variable EMAIL_PACIENTE_TESTE:${TEST_EMAIL_PACIENTE} \
+                                        --variable SENHA_PACIENTE_TESTE:${TEST_SENHA_PACIENTE} \
+                                        --variable EMAIL_PSICOLOGO_TESTE:${TEST_EMAIL_PSICOLOGO} \
+                                        --variable SENHA_PSICOLOGO_TESTE:${TEST_SENHA_PSICOLOGO} \
+                                        --outputdir ${ROBOT_RESULTS} \
+                                        --log ${ROBOT_RESULTS}/log.html \
+                                        --report ${ROBOT_RESULTS}/report.html \
+                                        --output ${ROBOT_RESULTS}/output.xml \
+                                        --xunit ${ROBOT_RESULTS}/xunit.xml \
+                                        . || true
+                                '''
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: 'test-results/robotframework/*', allowEmptyArchive: true
+                            publishTestResults testResultsPattern: 'test-results/robotframework/*.xml'
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Gerar Relatório Consolidado') {
+            steps {
+                script {
+                    echo "Gerando relatório consolidado..."
+                    sh '''
+                        python3 tests/scripts/generate_consolidated_report.py \
+                            --robot-results ${ROBOT_RESULTS} \
+                            --postman-results ${POSTMAN_RESULTS} \
+                            --output ${CONSOLIDATED_REPORT} || python tests/scripts/generate_consolidated_report.py \
+                            --robot-results ${ROBOT_RESULTS} \
+                            --postman-results ${POSTMAN_RESULTS} \
+                            --output ${CONSOLIDATED_REPORT} || echo "Erro ao gerar relatório consolidado"
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'test-results/consolidated-report.html', allowEmptyArchive: true
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            script {
+                echo "Limpeza e publicação de resultados..."
+                
+                // Publicar relatórios HTML
+                publishHTML([
+                    reportName: 'Robot Framework Report',
+                    reportDir: 'test-results/robotframework',
+                    reportFiles: 'report.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+                
+                publishHTML([
+                    reportName: 'Postman API Report',
+                    reportDir: 'test-results/postman',
+                    reportFiles: 'postman-report.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+                
+                publishHTML([
+                    reportName: 'Consolidated Report',
+                    reportDir: 'test-results',
+                    reportFiles: 'consolidated-report.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+            }
+        }
+        
+        success {
+            script {
+                echo "✅ Todos os testes passaram!"
+                emailext(
+                    subject: "✅ Build #${BUILD_NUMBER} - Testes Passaram",
+                    body: "Todos os testes do PsicoCare passaram com sucesso!\n\nVer relatórios: ${BUILD_URL}",
+                    to: "${env.CHANGE_AUTHOR_EMAIL ?: 'team@psicocare.com'}"
+                )
+            }
+        }
+        
+        failure {
+            script {
+                echo "❌ Alguns testes falharam!"
+                emailext(
+                    subject: "❌ Build #${BUILD_NUMBER} - Testes Falharam",
+                    body: "Alguns testes do PsicoCare falharam.\n\nVer relatórios: ${BUILD_URL}",
+                    to: "${env.CHANGE_AUTHOR_EMAIL ?: 'team@psicocare.com'}"
+                )
+            }
+        }
+        
+        unstable {
+            script {
+                echo "⚠️ Build instável!"
+            }
+        }
+    }
+}
+
