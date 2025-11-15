@@ -1,0 +1,129 @@
+================================================================================
+CÓDIGO INNO SETUP - ORATÓRIA FEMININA
+================================================================================
+
+Escolha uma das versões abaixo e salve como setup.iss no Inno Setup.
+
+================================================================================
+VERSÃO 1: SIMPLIFICADA (Recomendada - Mais fácil de compilar)
+================================================================================
+
+[Setup]
+AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+AppName=Oratória Feminina
+AppVersion=1.0.0
+AppPublisher=Oratória Feminina
+DefaultDirName={autopf}\Oratoria Feminina
+DefaultGroupName=Oratória Feminina
+OutputDir=dist
+OutputBaseFilename=OratoriaFeminina-Setup
+Compression=lzma
+SolidCompression=yes
+WizardStyle=modern
+PrivilegesRequired=lowest
+
+[Languages]
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "Criar atalho na área de trabalho"; GroupDescription: "Atalhos"; Flags: unchecked
+
+[Files]
+Source: "index.html"; DestDir: "{app}"; Flags: ignoreversion
+Source: "game.js"; DestDir: "{app}"; Flags: ignoreversion
+Source: "style.css"; DestDir: "{app}"; Flags: ignoreversion
+Source: "manifest.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "service-worker.js"; DestDir: "{app}"; Flags: ignoreversion
+Source: "iniciar-jogo.bat"; DestDir: "{app}"; Flags: ignoreversion
+
+[Icons]
+Name: "{group}\Oratória Feminina"; Filename: "{app}\iniciar-jogo.bat"; WorkingDir: "{app}"
+Name: "{group}\Desinstalar Oratória Feminina"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\Oratória Feminina"; Filename: "{app}\iniciar-jogo.bat"; Tasks: desktopicon; WorkingDir: "{app}"
+
+[Run]
+Filename: "{app}\iniciar-jogo.bat"; Description: "Iniciar Oratória Feminina"; Flags: nowait postinstall skipifsilent shellexec
+
+================================================================================
+VERSÃO 2: COMPLETA (Com mais opções)
+================================================================================
+
+[Setup]
+AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+AppName=Oratória Feminina
+AppVersion=1.0.0
+AppPublisher=Oratória Feminina
+DefaultDirName={autopf}\Oratoria Feminina
+DefaultGroupName=Oratória Feminina
+OutputDir=dist
+OutputBaseFilename=OratoriaFeminina-Setup
+;SetupIconFile=
+Compression=lzma
+SolidCompression=yes
+WizardStyle=modern
+PrivilegesRequired=lowest
+
+[Languages]
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+[Files]
+Source: "index.html"; DestDir: "{app}"; Flags: ignoreversion
+Source: "game.js"; DestDir: "{app}"; Flags: ignoreversion
+Source: "style.css"; DestDir: "{app}"; Flags: ignoreversion
+Source: "manifest.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "service-worker.js"; DestDir: "{app}"; Flags: ignoreversion
+Source: "iniciar-jogo.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Oratoria_feminina.png"; DestDir: "{app}"; Flags: ignoreversion; Check: FileExists('Oratoria_feminina.png')
+
+[Icons]
+Name: "{group}\Oratória Feminina"; Filename: "{app}\iniciar-jogo.bat"; WorkingDir: "{app}"
+Name: "{group}\{cm:UninstallProgram,Oratória Feminina}"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\Oratória Feminina"; Filename: "{app}\iniciar-jogo.bat"; Tasks: desktopicon; WorkingDir: "{app}"
+
+[Run]
+Filename: "{app}\iniciar-jogo.bat"; Description: "{cm:LaunchProgram,Oratória Feminina}"; Flags: nowait postinstall skipifsilent shellexec
+
+[Code]
+function FileExists(FileName: String): Boolean;
+begin
+  Result := FileExists(ExpandConstant(FileName));
+end;
+
+================================================================================
+COMO USAR:
+================================================================================
+
+1. Abra o Inno Setup Compiler
+2. File → New → cria um novo script
+3. Cole uma das versões acima
+4. Salve como "setup.iss"
+5. Certifique-se de que estes arquivos estão na mesma pasta:
+   - index.html
+   - game.js
+   - style.css
+   - manifest.json
+   - service-worker.js
+   - iniciar-jogo.bat
+6. Build → Compile (ou Ctrl+F9)
+7. O instalador será criado em: dist\OratoriaFeminina-Setup.exe
+
+================================================================================
+RECOMENDAÇÃO:
+================================================================================
+
+Use a VERSÃO 1 (SIMPLIFICADA) se:
+- Quer compilar rápido
+- Não tem o arquivo Oratoria_feminina.png
+- Quer evitar erros
+
+Use a VERSÃO 2 (COMPLETA) se:
+- Tem todos os arquivos
+- Quer incluir o ícone (se existir)
+- Quer todas as funcionalidades
+
+================================================================================
+

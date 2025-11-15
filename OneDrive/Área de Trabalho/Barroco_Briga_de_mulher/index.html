@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="Jogo de cartas estratégico inspirado em Blackjack com temática de oratória feminina e mulheres inspiradoras">
+    <meta name="theme-color" content="#764ba2">
+    
+    <!-- Ícone -->
+    <link rel="icon" type="image/png" href="Oratoria_feminina.png">
+    <link rel="apple-touch-icon" href="Oratoria_feminina.png">
+    
+    <!-- Manifest para PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <title>Oratória Feminina - Jogo de Cartas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>🎤 Oratória Feminina 🎤</h1>
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-label">Rodada:</span>
+                    <span id="round">1</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Fichas:</span>
+                    <span id="chips">500</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Aposta:</span>
+                    <span id="bet">50</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-game-area">
+            <div class="left-panel">
+                <div class="women-inspirers">
+                    <h2>Oradoras Inspiradoras</h2>
+                    <div id="women-slots" class="women-slots">
+                        <div class="slot empty">+</div>
+                        <div class="slot empty">+</div>
+                        <div class="slot empty">+</div>
+                        <div class="slot empty">+</div>
+                        <div class="slot empty">+</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-panel">
+                <div class="dealer-area">
+                    <h2>Dealer (Mesa)</h2>
+                    <div id="dealer-hand" class="hand"></div>
+                    <div class="hand-info">
+                        <div id="dealer-score" class="hand-score">Pontos: 0</div>
+                    </div>
+                </div>
+
+                <div class="hand-area">
+                    <h2>Sua Mão</h2>
+                    <div id="hand" class="hand"></div>
+                    <div class="hand-info">
+                        <div id="hand-score" class="hand-score">Pontos: 0</div>
+                        <div id="hand-status" class="hand-type">Faça sua aposta</div>
+                    </div>
+                </div>
+
+                <div class="deck-area">
+                    <h2>Baralho</h2>
+                    <div id="deck" class="deck">
+                        <div class="card-back">🂠</div>
+                        <div class="deck-count">52</div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="hit" class="btn btn-primary" disabled>Pedir Carta</button>
+                    <button id="stand" class="btn btn-secondary" disabled>Parar</button>
+                    <button id="bet-button" class="btn btn-success">Apostar</button>
+                    <button id="next-round" class="btn btn-success" style="display: none;">Próxima Rodada</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="shop">
+                    <h2>Oradoras Inspiradoras</h2>
+                    <div id="shop-items" class="shop-items"></div>
+                </div>
+                <div class="betting-area">
+                    <h3>Apostas</h3>
+                    <div class="bet-buttons">
+                        <button class="btn-bet" data-bet="25">25</button>
+                        <button class="btn-bet" data-bet="50">50</button>
+                        <button class="btn-bet" data-bet="100">100</button>
+                        <button class="btn-bet" data-bet="200">200</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2 id="modal-title"></h2>
+                <p id="modal-message"></p>
+                <button id="modal-close" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
+
